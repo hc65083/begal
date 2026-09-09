@@ -1,1 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Begal — discover live creators and communities.">
+  <title>Begal — Live, right now</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Urbanist:wght@400;500;600;700;800&display=swap');
 
+    :root {
+      --ink: #0b412f;
+      --muted: #617369;
+      --panel: #ffffff;
+      --panel-2: #ffeded;
+      --page: #fff9f7;
+      --accent: #f35353;
+      --accent-2: #eeff41;
+      --lime: #d7ff7c;
+      --forest: #0b412f;
+      --line: rgba(11, 65, 47, .12);
+      --sidebar: 242px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--page);
+      color: var(--ink);
+      font-family: "Urbanist", sans-serif;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .topbar {
+      position: fixed;
+      z-index: 20;
+      inset: 0 0 auto 0;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(18px);
+      color: var(--forest);
+    }
+    .brand { display: flex; align-items: center; flex: 0 0 auto; }
+    .brand-logo {
+      position: relative;
+      width: 100px;
+      height: 56px;
+      overflow: hidden;
+    }
+    .brand-logo img {
+      position: absolute;
+      width: 122px;
+      max-width: none;
+      left: -11px;
+      top: -8px;
+    }
+    .main-nav { display: flex; align-items: center; gap: 4px; }
+    .main-nav a {
+      padding: 10px 12px;
+      border-radius: 9px;
+      color: rgba(11,65,47,.68);
+      font-weight: 600;
+    }
+    .main-nav a:hover, .main-nav a.active { color: var(--forest); background: var(--accent-2); }
+    .search-wrap { flex: 1; display: flex; justify-content: center; }
+    .search {
+      width: min(100%, 480px);
+      height: 40px;
+      display: flex; align-items: center;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      border-radius: 11px;
+      overflow: hidden;
+    }
+    .search:focus-within { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(215,255,124,.16); }
+    .search input { flex: 1; min-width: 0; border: 0; outline: 0; padding: 0 14px; color: var(--forest); background: transparent; }
+    .search input::placeholder { color: rgba(11,65,47,.55); }
+    .search button { width: 44px; height: 100%; border: 0; border-left: 1px solid var(--line); background: rgba(243,83,83,.08); cursor: pointer; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .icon-btn, .sidebar-toggle {
+      display: grid; place-items: center;
+      width: 38px; height: 38px;
+      border: 0; border-radius: 10px;
+      background: transparent; cursor: pointer;
+    }
+    .topbar .icon-btn:hover { color:var(--forest); background:var(--lime); }
+    .sidebar-toggle:hover { background: rgba(255,255,255,.1); }
+    .avatar-me { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: white; font-weight: 800; cursor: pointer; }
+
+    .sidebar {
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 64px; bottom: 0;
+      width: var(--sidebar);
+      padding: 20px 12px;
+      color:#fff;
+      background: var(--accent);
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+      transition: width .2s ease, transform .2s ease;
+    }
+    .sidebar-head { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 14px; }
+    .sidebar h2 { margin: 0; font: 600 12px/1 "Fredoka"; letter-spacing: 1.2px; text-transform: uppercase; }
+    .channel { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 8px; border-radius: 10px; }
+    .channel:hover { color:var(--forest); background: var(--lime); }
+    .channel-avatar { position: relative; flex: 0 0 38px; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; font-weight: 800; color: #17121d; }
+    .channel-avatar::after { content:""; position:absolute; right:-1px; bottom:1px; width:9px; height:9px; border:2px solid var(--accent); border-radius:50%; background:var(--accent-2); }
+    .channel-copy { min-width: 0; flex: 1; }
+    .channel-name { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-weight:600; font-size:14px; }
+    .channel-game { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:rgba(255,255,255,.62); font-size:12px; margin-top:2px; }
+    .channel:hover .channel-game { color:rgba(11,65,47,.68); }
+    .viewers { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.76); font-size: 12px; }
+    .channel:hover .viewers { color:var(--forest); }
+    .live-dot { width: 7px; height: 7px; background: var(--accent-2); border-radius: 50%; }
+    .sidebar-promo { margin: 20px 5px 0; padding: 17px; color:var(--forest); border: 0; background: var(--lime); border-radius: 14px; }
+    .sidebar-promo strong { font: 600 16px/1.2 "Fredoka"; display:block; }
+    .sidebar-promo p { margin: 7px 0 13px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .sidebar-promo p { color:rgba(11,65,47,.7); }
+    .sidebar-promo button { border: 0; border-radius: 8px; padding: 8px 11px; background: var(--forest); color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+    main { margin-left: var(--sidebar); padding: 96px 30px 50px; transition: margin .2s ease; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 1.8px; font-weight: 800; font-size: 11px; }
+    .hero { max-width: 1480px; margin: 0 auto 42px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(280px,.7fr); min-height: 410px; margin-top: 14px; overflow:hidden; color:white; background: var(--forest); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 28px 80px rgba(11,65,47,.16); }
+    .hero-media { position: relative; min-height: 390px; background: #ffeded url('assets/featured-blind-box.png') center/cover no-repeat; }
+    .hero-media::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent 65%, rgba(11,65,47,.76)), linear-gradient(0deg,rgba(11,65,47,.36),transparent 45%); }
+    .live-badge { position:absolute; z-index:2; left:18px; top:18px; padding:5px 9px; border-radius:6px; background:var(--accent); color:white; font-size:11px; font-weight:800; letter-spacing:.7px; }
+    .hero-viewers { position:absolute; z-index:2; left:18px; bottom:16px; padding:5px 8px; border-radius:6px; background:rgba(8,6,12,.72); color:#fff; font-size:12px; }
+    .mute { position:absolute; z-index:2; right:18px; bottom:16px; background:rgba(8,6,12,.65); }
+    .hero-info { display:flex; flex-direction:column; justify-content:center; padding:34px; }
+    .creator { display:flex; align-items:center; gap:12px; }
+    .creator-avatar { width:50px; height:50px; display:grid; place-items:center; flex:0 0 auto; border-radius:50%; background:var(--accent-2); color:var(--forest); border:3px solid var(--lime); font:700 18px "Fredoka"; }
+    .creator strong { display:block; font-size:15px; }
+    .creator span { color:var(--lime); font-size:13px; }
+    .hero-info h1 { margin:26px 0 10px; font:700 clamp(28px,3vw,45px)/1.03 "Fredoka"; letter-spacing:-1.5px; }
+    .hero-info > p { margin:0; color:rgba(255,255,255,.7); line-height:1.55; font-size:14px; }
+    .tag-row { display:flex; flex-wrap:wrap; gap:7px; margin-top:20px; }
+    .tag { padding:6px 9px; border-radius:999px; background:rgba(255,255,255,.1); color:#fff; font-size:11px; font-weight:700; }
+    .hero-buttons { display:flex; gap:9px; margin-top:25px; }
+    .primary, .secondary { border:0; border-radius:10px; padding:11px 15px; cursor:pointer; font-weight:700; }
+    .primary { background:var(--accent-2); color:var(--forest); }
+    .primary:hover { background:var(--lime); transform:translateY(-1px); }
+    .secondary { background:rgba(255,255,255,.12); }
+    .secondary:hover { background:rgba(255,255,255,.2); }
+
+    .section { max-width:1480px; margin:0 auto 38px; }
+    .section-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:16px; }
+    .section-heading h2 { margin:4px 0 0; font:600 24px/1.1 "Fredoka"; letter-spacing:-.5px; }
+    .section-heading a { color:var(--accent); font-size:13px; font-weight:700; }
+    .section-heading a:hover { color:var(--forest); }
+    .card-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:25px 16px; }
+    .stream-card { min-width:0; cursor:pointer; }
+    .thumb { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:13px; background:#28222e; transition:transform .18s ease, box-shadow .18s ease; }
+    .thumb::before { content:""; position:absolute; inset:0; background:var(--art); transition:transform .25s ease; }
+    .thumb::after { content:attr(data-symbol); position:absolute; inset:0; display:grid; place-items:center; font-size:clamp(36px,4vw,72px); filter:drop-shadow(0 12px 18px rgba(0,0,0,.38)); }
+    .stream-card:hover .thumb { transform:translate(5px,-5px); box-shadow:-5px 5px 0 var(--accent-2); }
+    .stream-card:hover .thumb::before { transform:scale(1.05); }
+    .thumb .live-badge { left:10px; top:10px; }
+    .thumb .hero-viewers { left:10px; bottom:9px; }
+    .card-body { display:flex; gap:10px; padding-top:11px; }
+    .mini-avatar { flex:0 0 38px; width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:var(--avatar); color:#161019; font-weight:800; font-size:13px; }
+    .card-copy { min-width:0; }
+    .card-title { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:14px; font-weight:700; }
+    .card-copy span { display:block; margin-top:3px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--muted); font-size:12px; }
+    .category-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .category { min-width:0; }
+    .category-art { position:relative; height:190px; display:flex; align-items:flex-end; overflow:hidden; border-radius:13px; padding:16px; background:var(--art); transition:transform .18s ease; }
+    .category-art::after { content:attr(data-symbol); position:absolute; right:-5px; bottom:-17px; font-size:88px; transform:rotate(-8deg); filter:drop-shadow(0 15px 14px rgba(0,0,0,.3)); }
+    .category:hover .category-art { transform:translateY(-5px); }
+    .category-name { display:block; margin-top:10px; font-family:"Fredoka"; font-weight:600; font-size:14px; }
+    .category-count { color:var(--muted); font-size:12px; }
+
+    body.sidebar-closed { --sidebar: 76px; }
+    body.sidebar-closed .sidebar h2, body.sidebar-closed .channel-copy, body.sidebar-closed .viewers, body.sidebar-closed .sidebar-promo { display:none; }
+    body.sidebar-closed .sidebar-head { justify-content:center; }
+    body.sidebar-closed .channel { justify-content:center; padding:8px 0; }
+
+    .toast { position:fixed; z-index:40; right:24px; bottom:24px; padding:12px 16px; border:1px solid rgba(238,255,65,.4); border-radius:11px; background:var(--forest); color:var(--lime); font-size:13px; box-shadow:0 12px 30px rgba(11,65,47,.25); opacity:0; transform:translateY(12px); pointer-events:none; transition:.2s ease; }
+    .toast.show { opacity:1; transform:none; }
+
+    @media (max-width: 1180px) {
+      .card-grid { grid-template-columns:repeat(3,1fr); }
+      .category-grid { grid-template-columns:repeat(3,1fr); }
+      .main-nav a:nth-child(2) { display:none; }
+    }
+    @media (max-width: 850px) {
+      :root { --sidebar: 76px; }
+      .sidebar h2, .channel-copy, .viewers, .sidebar-promo { display:none; }
+      .sidebar-head { justify-content:center; }
+      .channel { justify-content:center; padding:8px 0; }
+      .main-nav { display:none; }
+      .hero-grid { grid-template-columns:1fr; }
+      .hero-media { min-height:330px; }
+      .hero-media::after { background:linear-gradient(0deg,rgba(11,65,47,.72),transparent 45%); }
+      .hero-info { padding:26px; }
+      .card-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .topbar { height:58px; padding:0 12px; gap:10px; }
+      .sidebar { top:58px; transform:translateX(-100%); }
+      main, body.sidebar-closed main { margin-left:0; padding:80px 16px 40px; }
+      .search-wrap { justify-content:flex-end; }
+      .search { width:42px; border:0; background:transparent; }
+      .search input { display:none; }
+      .search button { border:0; background:transparent; }
+      .top-actions .icon-btn { display:none; }
+      .hero-media { min-height:250px; }
+      .hero-info { padding:22px; }
+      .hero-info h1 { margin-top:22px; }
+      .card-grid { grid-template-columns:1fr; }
+      .category-grid { grid-template-columns:repeat(2,1fr); }
+      .category-art { height:165px; }
+      body.mobile-sidebar .sidebar { width:242px; transform:none; box-shadow:20px 0 50px rgba(0,0,0,.5); }
+      body.mobile-sidebar .sidebar h2, body.mobile-sidebar .channel-copy, body.mobile-sidebar .viewers, body.mobile-sidebar .sidebar-promo { display:block; }
+      body.mobile-sidebar .sidebar-head { justify-content:space-between; }
+      body.mobile-sidebar .channel { justify-content:flex-start; padding:8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Begal home">
+      <span class="brand-logo"><img src="assets/begal-logo-guide.png" alt="Begal"></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="active" href="#live">Browse</a><a href="#categories">Categories</a><a href="how-to-play.html">How to Play</a>
+    </nav>
+    <div class="search-wrap">
+      <form class="search" id="searchForm">
+        <input id="searchInput" type="search" placeholder="Search channels, games, or tags" aria-label="Search">
+        <button aria-label="Search"><svg><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+      </form>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" aria-label="Inbox"><svg><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg></button>
+      <button class="icon-btn" aria-label="Notifications"><svg><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></button>
+      <div class="avatar-me" title="Your profile">E</div>
+    </div>
+  </header>
+
+  <aside class="sidebar" aria-label="Followed channels">
+    <div class="sidebar-head">
+      <h2>Live channels</h2>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Collapse sidebar"><svg><path d="m15 18-6-6 6-6"/></svg></button>
+    </div>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#ff9aa8">AM</span><span class="channel-copy"><span class="channel-name">AmiMoon</span><span class="channel-game">Blind Box Unboxing</span></span><span class="viewers"><i class="live-dot"></i>12.4K</span></a>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#71dcff">JN</span><span class="channel-copy"><span class="channel-name">Juno</span><span class="channel-game">Just Chatting</span></span><span class="viewers"><i class="live-dot"></i>8.2K</span></a>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#c6f16e">RX</span><span class="channel-copy"><span class="channel-name">RexArcade</span><span class="channel-game">Velocity</span></span><span class="viewers"><i class="live-dot"></i>4.1K</span></a>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#dba5ff">LU</span><span class="channel-copy"><span class="channel-name">Lumi</span><span class="channel-game">Cozy Grove</span></span><span class="viewers"><i class="live-dot"></i>982</span></a>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#ffca70">KP</span><span class="channel-copy"><span class="channel-name">KayPlays</span><span class="channel-game">Night Shift</span></span><span class="viewers"><i class="live-dot"></i>624</span></a>
+    <div class="sidebar-promo"><strong>Join the conversation.</strong><p>Create an account to follow creators and chat live.</p><button data-action="signup">Sign up free</button></div>
+  </aside>
+
+  <main>
+    <section class="hero" id="live">
+      <div class="eyebrow">Featured live channel</div>
+      <div class="hero-grid">
+        <div class="hero-media"><span class="live-badge">LIVE</span><span class="hero-viewers">24,812 watching</span><button class="icon-btn mute" id="muteButton" aria-label="Toggle sound"><svg id="volumeIcon"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></button></div>
+        <div class="hero-info">
+          <div class="creator"><div class="creator-avatar">AM</div><div><strong>AmiMoon <span title="Verified">✓</span></strong><span>Blind Box Unboxing</span></div></div>
+          <h1>Let's see who we got!</h1>
+          <p>Opening a fresh case of mystery collectibles live. Come predict the pull and help pick which box comes next.</p>
+          <div class="tag-row"><span class="tag">Collectibles</span><span class="tag">Unboxing</span><span class="tag">English</span></div>
+          <div class="hero-buttons"><button class="primary" data-action="watch">Watch now</button><button class="secondary follow" data-action="follow">♡ Follow</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><div><div class="eyebrow">Made for you</div><h2>Live channels we think you'll like</h2></div><a href="#">Show all →</a></div>
+      <div class="card-grid" id="streamGrid">
+        <article class="stream-card" data-search="nox racing velocity speedrun"><div class="thumb" role="img" aria-label="A collector revealing a woodland figure from a case of blind boxes" style="--art:url('assets/thumb-case-opening.png') center/cover no-repeat"><span class="live-badge">LIVE</span><span class="hero-viewers">6.8K viewers</span></div><div class="card-body"><div class="mini-avatar" style="--avatar:#ffbd70">NX</div><div class="card-copy"><b class="card-title">Full Case Opening: Secret Pull Hunt</b><span>Nox · Velocity</span><span>Racing · Speedrun</span></div></div></article>
+        <article class="stream-card" data-search="juno studio music beats chat"><div class="thumb" role="img" aria-label="A pastel collectible figure being lifted from a blind box" style="--art:url('assets/thumb-pastel-reveal.png') center/cover no-repeat"><span class="live-badge">LIVE</span><span class="hero-viewers">8.2K viewers</span></div><div class="card-body"><div class="mini-avatar" style="--avatar:#71dcff">JN</div><div class="card-copy"><b class="card-title">New Series! Who's Hiding Inside?</b><span>Juno · Music</span><span>Chill · Community</span></div></div></article>
+        <article class="stream-card" data-search="lumi cozy grove farming indie"><div class="thumb" role="img" aria-label="Three freshly unboxed collectible figures on a creator desk" style="--art:url('assets/thumb-unboxing-marathon.png') center/cover no-repeat"><span class="live-badge">LIVE</span><span class="hero-viewers">982 viewers</span></div><div class="card-body"><div class="mini-avatar" style="--avatar:#dba5ff">LU</div><div class="card-copy"><b class="card-title">Cozy Critter Blind Box Marathon</b><span>Lumi · Cozy Grove</span><span>Indie · Relaxing</span></div></div></article>
+        <article class="stream-card" data-search="pixelparade strategy cards tournament"><div class="thumb" role="img" aria-label="A rare glowing collectible revealed from a dark green blind box" style="--art:url('assets/thumb-rare-glow.png') center/cover no-repeat"><span class="live-badge">LIVE</span><span class="hero-viewers">3.4K viewers</span></div><div class="card-body"><div class="mini-avatar" style="--avatar:#ff8e7c">PP</div><div class="card-copy"><b class="card-title">Chasing the Ultra-Rare Figure</b><span>PixelParade · Card Clash</span><span>Strategy · Competitive</span></div></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="section-heading"><div><div class="eyebrow">Find your thing</div><h2>Popular categories</h2></div><a href="#">Browse categories →</a></div>
+      <div class="category-grid">
+        <a class="category" href="#"><div class="category-art" data-symbol="⚡" style="--art:linear-gradient(145deg,#eeff41,#f8c94e)"></div><span class="category-name">Pokémon</span><span class="category-count">128K viewers</span></a>
+        <a class="category" href="#"><div class="category-art" data-symbol="🎀" style="--art:linear-gradient(145deg,#ffeded,#f7a8a8)"></div><span class="category-name">Sanrio</span><span class="category-count">86K viewers</span></a>
+        <a class="category" href="#"><div class="category-art" data-symbol="🐰" style="--art:linear-gradient(145deg,#f35353,#ff8880)"></div><span class="category-name">Labubu</span><span class="category-count">64K viewers</span></a>
+        <a class="category" href="#"><div class="category-art" data-symbol="👻" style="--art:linear-gradient(145deg,#0b412f,#d7ff7c)"></div><span class="category-name">Smiski</span><span class="category-count">42K viewers</span></a>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const body = document.body;
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      if (innerWidth <= 600) body.classList.toggle('mobile-sidebar');
+      else body.classList.toggle('sidebar-closed');
+    });
+
+    document.getElementById('muteButton').addEventListener('click', (event) => {
+      const button = event.currentTarget;
+      const muted = button.classList.toggle('is-muted');
+      button.innerHTML = muted
+        ? '<svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m16 9 5 5m0-5-5 5"/></svg>'
+        : '<svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>';
+      showToast(muted ? 'Preview muted' : 'Preview sound on');
+    });
+
+    document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => {
+      const action = button.dataset.action;
+      if (action === 'follow') {
+        const following = button.classList.toggle('following');
+        button.textContent = following ? '♥ Following' : '♡ Follow';
+        showToast(following ? 'AmiMoon added to your follows' : 'AmiMoon unfollowed');
+      } else if (action === 'watch') {
+        document.querySelector('.hero-media').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('Opening the live player…');
+      } else showToast('Account creation is ready to connect');
+    }));
+
+    document.getElementById('searchForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const cards = [...document.querySelectorAll('.stream-card')];
+      cards.forEach(card => card.hidden = query && !card.dataset.search.includes(query));
+      const matches = cards.filter(card => !card.hidden).length;
+      showToast(query ? `${matches} live ${matches === 1 ? 'result' : 'results'} for “${query}”` : 'Showing all live channels');
+      document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.addEventListener('click', event => {
+      if (innerWidth <= 600 && body.classList.contains('mobile-sidebar') && !event.target.closest('.sidebar') && !event.target.closest('.brand')) body.classList.remove('mobile-sidebar');
+    });
+  </script>
+</body>
+</html>
