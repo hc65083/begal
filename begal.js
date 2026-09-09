@@ -66,3 +66,40 @@ if (chatForm && chatInput && chatMessages) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   });
 }
+
+const profileTabs = document.querySelectorAll('[data-profile-tab]');
+const profilePanels = document.querySelectorAll('[data-profile-panel]');
+if (profileTabs.length && profilePanels.length) {
+  profileTabs.forEach(tab => tab.addEventListener('click', () => {
+    const target = tab.dataset.profileTab;
+    profileTabs.forEach(item => item.classList.toggle('active', item === tab));
+    profilePanels.forEach(panel => panel.hidden = panel.dataset.profilePanel !== target);
+  }));
+}
+
+const colorChoices = document.querySelectorAll('.color-choice');
+const previewAvatar = document.querySelector('.preview-avatar');
+const largeAvatar = document.querySelector('.profile-avatar-large');
+colorChoices.forEach(choice => choice.addEventListener('click', () => {
+  colorChoices.forEach(item => item.classList.remove('selected'));
+  choice.classList.add('selected');
+  if (previewAvatar) previewAvatar.style.background = choice.dataset.color;
+  if (largeAvatar) largeAvatar.style.background = choice.dataset.color;
+}));
+
+const profileForm = document.getElementById('profileForm');
+const profileToast = document.getElementById('profileToast');
+if (profileForm) {
+  profileForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const displayName = document.getElementById('displayName').value.trim() || 'Emily';
+    const bio = document.getElementById('profileBio').value.trim();
+    document.querySelectorAll('[data-profile-name]').forEach(node => node.textContent = displayName);
+    const previewBio = document.querySelector('[data-profile-bio]');
+    if (previewBio) previewBio.textContent = bio;
+    if (profileToast) {
+      profileToast.classList.add('show');
+      setTimeout(() => profileToast.classList.remove('show'), 2200);
+    }
+  });
+}

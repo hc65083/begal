@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage your Begal profile, coins, settings, and saved streams.">
+  <title>Your Profile — Begal</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <header class="play-topbar">
+    <a class="play-brand" href="index.html" aria-label="Begal home"><span class="play-brand-logo"><img src="assets/logo.svg" alt="Begal"></span></a>
+    <nav class="play-nav" aria-label="Main navigation">
+      <details class="nav-dropdown"><summary>Categories <svg><path d="m6 9 6 6 6-6"/></svg></summary><div class="brand-menu"><span class="brand-menu-title">Browse by brand</span><a href="index.html#categories"><span class="brand-dot">👻</span><span><strong>Smiski</strong><small>Glow-in-the-dark figures</small></span></a><a href="index.html#categories"><span class="brand-dot">🎀</span><span><strong>Sanrio</strong><small>Kawaii characters</small></span></a><a href="index.html#categories"><span class="brand-dot">🐰</span><span><strong>Labubu</strong><small>Designer collectibles</small></span></a><a href="index.html#categories"><span class="brand-dot">⚡</span><span><strong>Pokémon</strong><small>Figures and miniatures</small></span></a><a href="index.html#categories"><span class="brand-dot">👼</span><span><strong>Sonny Angel</strong><small>Mini figure series</small></span></a><a href="index.html#categories"><span class="brand-dot">🌈</span><span><strong>Tokidoki</strong><small>Art toys and Unicorno</small></span></a></div></details>
+      <a href="how-to-play.html">How to Play</a><a href="stream.html">Stream</a><a class="buy-coins" href="#">Buy Coins</a>
+    </nav>
+    <div class="play-actions"><a class="signup" href="index.html">Back to live</a></div>
+  </header>
+
+  <main class="profile-page">
+    <div class="profile-shell">
+      <section class="profile-cover">
+        <div class="profile-identity"><div class="profile-avatar-large">E</div><div><h1 data-profile-name>Emily</h1><p>@emilycollects · Member since 2026</p></div></div>
+      </section>
+
+      <div class="profile-layout">
+        <aside class="profile-sidebar">
+          <div class="coin-card"><span class="coin-label"><span>●</span> Coin balance</span><strong class="coin-value">2,450</strong><small>Begal Coins available</small><a href="#">Buy more coins</a></div>
+          <nav class="profile-menu" aria-label="Profile sections">
+            <button class="active" data-profile-tab="customize"><svg><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Customize profile</button>
+            <button data-profile-tab="saved"><svg><path d="M6 3h12v18l-6-4-6 4z"/></svg>Saved streams</button>
+            <button data-profile-tab="settings"><svg><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.09A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.12.37.33.7.6 1 .3.26.68.4 1.1.4h.09v4h-.09a1.7 1.7 0 0 0-1.7.6z"/></svg>Settings</button>
+          </nav>
+        </aside>
+
+        <section class="profile-content">
+          <div data-profile-panel="customize">
+            <form id="profileForm">
+              <div class="panel-heading"><div><h2>Customize profile</h2><p>Make your collector profile feel like you.</p></div><button class="profile-save" type="submit">Save changes</button></div>
+              <div class="customize-grid">
+                <div class="profile-form">
+                  <div class="form-field"><label for="displayName">Display name</label><input id="displayName" value="Emily" maxlength="30"><small class="form-hint">This is how your name appears in chat.</small></div>
+                  <div class="form-field"><label for="profileBio">Bio</label><textarea id="profileBio" maxlength="160">Blind-box collector, rare-pull chaser, and certified tiny-things enthusiast.</textarea><small class="form-hint">160 characters maximum.</small></div>
+                  <div class="form-field"><label>Profile color</label><div class="color-options"><button class="color-choice selected" type="button" data-color="#eeff41" style="--choice:#eeff41" aria-label="Yellow"></button><button class="color-choice" type="button" data-color="#d7ff7c" style="--choice:#d7ff7c" aria-label="Lime"></button><button class="color-choice" type="button" data-color="#f35353" style="--choice:#f35353" aria-label="Coral"></button><button class="color-choice" type="button" data-color="#ffb8d0" style="--choice:#ffb8d0" aria-label="Pink"></button></div></div>
+                </div>
+                <aside class="profile-preview"><div class="preview-avatar">E</div><strong data-profile-name>Emily</strong><small>@emilycollects</small><p data-profile-bio>Blind-box collector, rare-pull chaser, and certified tiny-things enthusiast.</p></aside>
+              </div>
+            </form>
+          </div>
+
+          <div data-profile-panel="saved" hidden>
+            <div class="panel-heading"><div><h2>Saved streams</h2><p>Openings you bookmarked to watch again.</p></div></div>
+            <div class="saved-grid">
+              <a class="saved-card" href="watch-live.html"><div class="saved-thumb" style="--image:url('assets/thumb-case-opening.png')"><span class="saved-duration">48:12</span></div><div class="saved-copy"><strong>Full Case Opening: Secret Pull Hunt</strong><span>AmiMoon · Saved yesterday</span></div></a>
+              <a class="saved-card" href="watch-live.html"><div class="saved-thumb" style="--image:url('assets/thumb-pastel-reveal.png')"><span class="saved-duration">1:02:35</span></div><div class="saved-copy"><strong>New Series! Who's Hiding Inside?</strong><span>Juno · Saved 3 days ago</span></div></a>
+              <a class="saved-card" href="watch-live.html"><div class="saved-thumb" style="--image:url('assets/thumb-unboxing-marathon.png')"><span class="saved-duration">36:08</span></div><div class="saved-copy"><strong>Cozy Critter Blind Box Marathon</strong><span>Lumi · Saved last week</span></div></a>
+              <a class="saved-card" href="watch-live.html"><div class="saved-thumb" style="--image:url('assets/thumb-rare-glow.png')"><span class="saved-duration">52:46</span></div><div class="saved-copy"><strong>Chasing the Ultra-Rare Figure</strong><span>PixelParade · Saved last week</span></div></a>
+            </div>
+          </div>
+
+          <div data-profile-panel="settings" hidden>
+            <div class="panel-heading"><div><h2>Settings</h2><p>Control notifications, privacy, and playback.</p></div></div>
+            <div class="settings-list">
+              <div class="setting-row"><div class="setting-copy"><strong>Live notifications</strong><span>Let me know when followed creators go live.</span></div><label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label></div>
+              <div class="setting-row"><div class="setting-copy"><strong>Saved-stream reminders</strong><span>Remind me before a saved stream expires.</span></div><label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label></div>
+              <div class="setting-row"><div class="setting-copy"><strong>Autoplay previews</strong><span>Play muted previews while browsing live streams.</span></div><label class="switch"><input type="checkbox"><span class="switch-track"></span></label></div>
+              <div class="setting-row"><div class="setting-copy"><strong>Public collection</strong><span>Allow other collectors to see my saved figures.</span></div><label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <div class="profile-toast" id="profileToast" role="status">Profile changes saved</div>
+  <script src="begal.js"></script>
+</body>
+</html>
