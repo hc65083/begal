@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Watch AmiMoon open mystery collectibles live on Begal.">
+  <title>Live: Blind Box Unboxing — Begal</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <header class="play-topbar watch-topbar">
+    <a class="play-brand" href="index.html" aria-label="Begal home"><span class="play-brand-logo"><img src="assets/begal-logo-guide.png" alt="Begal"></span></a>
+    <nav class="play-nav" aria-label="Main navigation"><a href="index.html#categories">Categories</a><a href="how-to-play.html">How to Play</a><a href="stream.html">Stream</a></nav>
+    <form class="watch-search"><input type="search" placeholder="Search live openings" aria-label="Search"><button aria-label="Search"><svg><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button></form>
+    <div class="play-actions watch-actions"><a class="watch-coin" href="#">Buy Coins</a><span class="watch-avatar" title="Your profile">E</span></div>
+  </header>
+
+  <main class="watch-page">
+    <div class="watch-layout">
+      <div class="watch-main">
+        <section class="video-player" aria-label="Live unboxing video preview">
+          <span class="watch-live-badge">LIVE</span>
+          <div class="video-center"><button id="playToggle" aria-label="Play live stream"><svg id="playIcon"><path d="m8 5 11 7-11 7z"/></svg></button></div>
+          <div class="video-controls"><button class="control-button" aria-label="Volume"><svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></button><div class="video-progress"><span></span></div><span class="live-time">● LIVE</span><button class="control-button" aria-label="Full screen"><svg><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button></div>
+        </section>
+
+        <section class="watch-info">
+          <h1>Let's see who we got! Full case opening</h1>
+          <div class="watch-meta">24,812 watching now · Started 42 minutes ago</div>
+          <div class="watch-creator-row"><div class="watch-creator-avatar">AM</div><div class="watch-creator-copy"><strong>AmiMoon ✓</strong><span>128K followers</span></div><button class="watch-follow" id="liveFollow">♡ Follow</button></div>
+          <div class="watch-description"><strong>About this stream</strong><p>Opening a fresh case of mystery collectibles live. Predict each pull in chat and help choose which box comes next—no spoilers!</p></div>
+        </section>
+      </div>
+
+      <aside class="live-chat" aria-label="Live chat">
+        <div class="chat-header"><strong>Live chat</strong><span><i></i> 3.8K chatting</span></div>
+        <div class="chat-messages" id="chatMessages" aria-live="polite">
+          <div class="system-message">Welcome to the chat! Be kind, avoid spoilers, and have fun guessing the next pull.</div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#d7ff7c">ML</span><div class="message-copy"><strong style="--name:#357d5c">mintleaf</strong><span>I'm guessing the green one! 🌱</span></div></div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#ffb5b5">BB</span><div class="message-copy"><strong style="--name:#c43d59">boxbunny</strong><span>That packaging is so cute</span></div></div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#eeff41">JP</span><div class="message-copy"><strong style="--name:#866d00">joypulls</strong><span>Secret incoming, I can feel it 👀</span></div></div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#c5ddff">MM</span><div class="message-copy"><strong style="--name:#4268a6">minimoon</strong><span>Box number 4 next please!</span></div></div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#ffc781">RT</span><div class="message-copy"><strong style="--name:#a95c26">rarething</strong><span>First time catching the stream live!</span></div></div>
+          <div class="chat-message"><span class="chat-avatar" style="--avatar:#e0c5ff">CL</span><div class="message-copy"><strong style="--name:#7c45ac">collectorlee</strong><span>The tiny leaf detail!!</span></div></div>
+        </div>
+        <div class="chat-compose"><button class="bet-button" type="button">Bet</button><form id="chatForm"><input id="chatInput" maxlength="180" placeholder="Say something…" aria-label="Chat message"><button aria-label="Send message"><svg><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button></form><small class="chat-note">Remember to follow our community guidelines.</small></div>
+      </aside>
+    </div>
+
+    <section class="up-next">
+      <h2>More live openings</h2>
+      <div class="next-grid">
+        <a class="next-card" href="#"><div class="next-thumb" style="--image:url('assets/thumb-case-opening.png')"></div><div class="next-copy"><strong>Secret Pull Hunt</strong><span>Nox · 6.8K watching</span></div></a>
+        <a class="next-card" href="#"><div class="next-thumb" style="--image:url('assets/thumb-pastel-reveal.png')"></div><div class="next-copy"><strong>Who's Hiding Inside?</strong><span>Juno · 8.2K watching</span></div></a>
+        <a class="next-card" href="#"><div class="next-thumb" style="--image:url('assets/thumb-rare-glow.png')"></div><div class="next-copy"><strong>Ultra-Rare Figure Hunt</strong><span>PixelParade · 3.4K watching</span></div></a>
+      </div>
+    </section>
+  </main>
+  <script src="begal.js"></script>
+</body>
+</html>

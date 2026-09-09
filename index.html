@@ -332,8 +332,7 @@
         button.textContent = following ? '♥ Following' : '♡ Follow';
         showToast(following ? 'AmiMoon added to your follows' : 'AmiMoon unfollowed');
       } else if (action === 'watch') {
-        document.querySelector('.hero-media').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        showToast('Opening the live player…');
+        window.location.href = 'watch-live.html';
       } else showToast('Account creation is ready to connect');
     }));
 
