@@ -1,4 +1,5 @@
 const videoPlayer = document.querySelector('.video-player');
+const streamVideo = document.querySelector('.watch-video');
 const playToggle = document.getElementById('playToggle');
 const playIcon = document.getElementById('playIcon');
 
@@ -11,17 +12,20 @@ function setPlayerState(playing) {
     : '<path d="m8 5 11 7-11 7z"/>';
 }
 
-if (videoPlayer && playToggle) {
-  let playing = false;
+if (videoPlayer && streamVideo && playToggle) {
+  const togglePlayback = () => {
+    if (streamVideo.paused) streamVideo.play().catch(() => setPlayerState(false));
+    else streamVideo.pause();
+  };
+
   playToggle.addEventListener('click', event => {
     event.stopPropagation();
-    playing = !playing;
-    setPlayerState(playing);
+    togglePlayback();
   });
-  videoPlayer.addEventListener('click', () => {
-    playing = !playing;
-    setPlayerState(playing);
-  });
+  videoPlayer.addEventListener('click', togglePlayback);
+  streamVideo.addEventListener('play', () => setPlayerState(true));
+  streamVideo.addEventListener('pause', () => setPlayerState(false));
+  streamVideo.addEventListener('ended', () => setPlayerState(false));
   document.querySelectorAll('.video-controls button').forEach(button => {
     button.addEventListener('click', event => event.stopPropagation());
   });

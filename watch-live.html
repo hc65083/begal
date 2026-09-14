@@ -20,6 +20,9 @@
     <div class="watch-layout">
       <div class="watch-main">
         <section class="video-player" aria-label="Live unboxing video preview">
+          <video class="watch-video" playsinline preload="metadata" aria-label="Blind box unboxing live stream">
+            <source src="assets/blindbox.mp4" type="video/mp4">
+          </video>
           <span class="watch-live-badge">LIVE</span>
           <div class="video-center"><button id="playToggle" aria-label="Play live stream"><svg id="playIcon"><path d="m8 5 11 7-11 7z"/></svg></button></div>
           <div class="video-controls"><button class="control-button" aria-label="Volume"><svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></button><div class="video-progress"><span></span></div><span class="live-time">● LIVE</span><button class="control-button" aria-label="Full screen"><svg><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button></div>
