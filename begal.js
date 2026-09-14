@@ -26,6 +26,7 @@ if (videoPlayer && streamVideo && playToggle) {
   streamVideo.addEventListener('play', () => setPlayerState(true));
   streamVideo.addEventListener('pause', () => setPlayerState(false));
   streamVideo.addEventListener('ended', () => setPlayerState(false));
+  setPlayerState(!streamVideo.paused);
   document.querySelectorAll('.video-controls button').forEach(button => {
     button.addEventListener('click', event => event.stopPropagation());
   });
