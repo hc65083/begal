@@ -151,7 +151,8 @@
     .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 1.8px; font-weight: 800; font-size: 11px; }
     .hero { max-width: 1480px; margin: 0 auto 42px; }
     .hero-grid { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(280px,.7fr); min-height: 410px; margin-top: 14px; overflow:hidden; color:white; background: var(--forest); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 28px 80px rgba(11,65,47,.16); }
-    .hero-media { position: relative; min-height: 390px; background: #ffeded url('assets/featured-blind-box.png') center/cover no-repeat; }
+    .hero-media { position: relative; min-height: 390px; overflow:hidden; background:#ffeded; }
+    .hero-media video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
     .hero-media::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent 65%, rgba(11,65,47,.76)), linear-gradient(0deg,rgba(11,65,47,.36),transparent 45%); }
     .live-badge { position:absolute; z-index:2; left:18px; top:18px; padding:5px 9px; border-radius:6px; background:var(--accent); color:white; font-size:11px; font-weight:800; letter-spacing:.7px; }
     .hero-viewers { position:absolute; z-index:2; left:18px; bottom:16px; padding:5px 8px; border-radius:6px; background:rgba(8,6,12,.72); color:#fff; font-size:12px; }
@@ -271,7 +272,7 @@
       <h2>Live channels</h2>
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Collapse sidebar"><svg><path d="m15 18-6-6 6-6"/></svg></button>
     </div>
-    <a class="channel" href="#"><span class="channel-avatar" style="background:#ff9aa8">AM</span><span class="channel-copy"><span class="channel-name">AmiMoon</span><span class="channel-game">Blind Box Unboxing</span></span><span class="viewers"><i class="live-dot"></i>12.4K</span></a>
+    <a class="channel" href="#"><span class="channel-avatar" style="background:#ff9aa8">AM</span><span class="channel-copy"><span class="channel-name">Hang with Hope</span><span class="channel-game">Blind Box Unboxing</span></span><span class="viewers"><i class="live-dot"></i>12.4K</span></a>
     <a class="channel" href="#"><span class="channel-avatar" style="background:#71dcff">JN</span><span class="channel-copy"><span class="channel-name">Juno</span><span class="channel-game">Just Chatting</span></span><span class="viewers"><i class="live-dot"></i>8.2K</span></a>
     <a class="channel" href="#"><span class="channel-avatar" style="background:#c6f16e">RX</span><span class="channel-copy"><span class="channel-name">RexArcade</span><span class="channel-game">Velocity</span></span><span class="viewers"><i class="live-dot"></i>4.1K</span></a>
     <a class="channel" href="#"><span class="channel-avatar" style="background:#dba5ff">LU</span><span class="channel-copy"><span class="channel-name">Lumi</span><span class="channel-game">Cozy Grove</span></span><span class="viewers"><i class="live-dot"></i>982</span></a>
@@ -283,9 +284,9 @@
     <section class="hero" id="live">
       <div class="eyebrow">Featured live channel</div>
       <div class="hero-grid">
-        <div class="hero-media"><span class="live-badge">LIVE</span><span class="hero-viewers">24,812 watching</span><button class="icon-btn mute" id="muteButton" aria-label="Toggle sound"><svg id="volumeIcon"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></button></div>
+        <div class="hero-media"><video id="heroVideo" autoplay muted loop playsinline aria-label="Blind box unboxing preview"><source src="assets/blindbox.mp4" type="video/mp4"></video><span class="live-badge">LIVE</span><span class="hero-viewers">24,812 watching</span><button class="icon-btn mute is-muted" id="muteButton" aria-label="Turn sound on"><svg id="volumeIcon"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m16 9 5 5m0-5-5 5"/></svg></button></div>
         <div class="hero-info">
-          <div class="creator"><div class="creator-avatar">AM</div><div><strong>AmiMoon <span title="Verified">✓</span></strong><span>Blind Box Unboxing</span></div></div>
+          <div class="creator"><div class="creator-avatar">AM</div><div><strong>Hang with Hope <span title="Verified">✓</span></strong><span>Blind Box Unboxing</span></div></div>
           <h1>Let's see who we got!</h1>
           <p>Opening a fresh case of mystery collectibles live. Come predict the pull and help pick which box comes next.</p>
           <div class="tag-row"><span class="tag">Collectibles</span><span class="tag">Unboxing</span><span class="tag">English</span></div>
@@ -334,7 +335,11 @@
 
     document.getElementById('muteButton').addEventListener('click', (event) => {
       const button = event.currentTarget;
-      const muted = button.classList.toggle('is-muted');
+      const video = document.getElementById('heroVideo');
+      video.muted = !video.muted;
+      const muted = video.muted;
+      button.classList.toggle('is-muted', muted);
+      button.setAttribute('aria-label', muted ? 'Turn sound on' : 'Mute preview');
       button.innerHTML = muted
         ? '<svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m16 9 5 5m0-5-5 5"/></svg>'
         : '<svg><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>';
@@ -346,7 +351,7 @@
       if (action === 'follow') {
         const following = button.classList.toggle('following');
         button.textContent = following ? '♥ Following' : '♡ Follow';
-        showToast(following ? 'AmiMoon added to your follows' : 'AmiMoon unfollowed');
+        showToast(following ? 'Hang with Hope added to your follows' : 'Hang with Hope unfollowed');
       } else if (action === 'watch') {
         window.location.href = 'watch-live.html';
       } else showToast('Account creation is ready to connect');
