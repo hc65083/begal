@@ -47,10 +47,10 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .nav-dropdown summary { display:flex; align-items:center; gap:5px; cursor:pointer; list-style:none; }
 .nav-dropdown summary::-webkit-details-marker { display:none; }
 .nav-dropdown summary svg { width:14px; height:14px; transition:transform .18s ease; }
-.nav-dropdown:hover summary { color:var(--forest); background:var(--blush); }
-.nav-dropdown:hover summary svg { transform:rotate(180deg); }
-.brand-menu { position:absolute; z-index:30; left:0; top:100%; width:270px; display:none; padding:10px; border:1px solid rgba(243,83,83,.16); border-radius:14px; background:var(--blush); box-shadow:0 20px 55px rgba(11,65,47,.18); opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-5px); transition:opacity .16s ease,transform .16s ease; }
-.nav-dropdown:hover .brand-menu { display:block; opacity:1; visibility:visible; pointer-events:auto; transform:none; }
+.nav-dropdown:hover summary, .nav-dropdown[open] summary { color:var(--forest); background:var(--blush); }
+.nav-dropdown[open] summary svg { transform:rotate(180deg); }
+.brand-menu { position:absolute; z-index:30; left:0; top:100%; width:270px; display:block; padding:10px; border:1px solid rgba(243,83,83,.16); border-radius:14px; background:var(--blush); box-shadow:0 20px 55px rgba(11,65,47,.18); opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-5px); transition:opacity .16s ease,transform .16s ease,visibility .16s ease; }
+.nav-dropdown[open] .brand-menu { opacity:1; visibility:visible; pointer-events:auto; transform:none; }
 .brand-menu-title { display:block; padding:7px 9px 9px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; }
 .play-nav .brand-menu a { display:flex; align-items:center; gap:0; padding:9px; color:var(--forest); border-radius:9px; }
 .play-nav .brand-menu a:hover { background:white; }

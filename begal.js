@@ -1,3 +1,15 @@
+document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+  dropdown.addEventListener('mouseenter', () => {
+    dropdown.open = true;
+  });
+  dropdown.addEventListener('mouseleave', () => {
+    dropdown.open = false;
+  });
+  dropdown.addEventListener('focusout', event => {
+    if (!dropdown.contains(event.relatedTarget)) dropdown.open = false;
+  });
+});
+
 const videoPlayer = document.querySelector('.video-player');
 const streamVideo = document.querySelector('.watch-video');
 const playToggle = document.getElementById('playToggle');
